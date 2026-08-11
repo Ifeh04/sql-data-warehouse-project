@@ -26,7 +26,7 @@ Developing a modern data warehouse using postgreSQL to consolidate sales data, e
 Develop  SQL-based analytics to deliver detailed insights into:
 - **Customer Behaviour**
 - **Product Performance**
-- **Sales Trenf**
+- **Sales Trend**
 
 These insights aids stakeholders with key business metrics, enabling strategic decision-making.
 
