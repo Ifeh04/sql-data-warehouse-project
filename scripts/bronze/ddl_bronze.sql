@@ -1,3 +1,19 @@
+/*
+===============================================================================
+DDL Script : ddl_bronze.sql
+Layer      : Bronze (Raw Data - Landing Zone)
+===============================================================================
+*/
+
+-- Ensure bronze schema exists
+CREATE SCHEMA IF NOT EXISTS bronze;
+
+-- =============================================
+-- Table: bronze.crm_cust_info
+-- Source : CRM system (cust_info.csv)
+-- =============================================
+DROP TABLE IF EXISTS bronze.crm_cust_info CASCADE;
+
 CREATE  TABLE bronze.crm_cust_info (
     cst_id INT,
     cst_key VARCHAR(50),
@@ -8,6 +24,11 @@ CREATE  TABLE bronze.crm_cust_info (
     cst_create_date DATE
 );
 
+-- =============================================
+-- Table: bronze.crm_prd_info
+-- Source : CRM system (prd_info.csv)
+-- =============================================
+DROP TABLE IF EXISTS bronze.crm_prd_info CASCADE;
 
 CREATE TABLE bronze.crm_prd_info (
     prd_id INT,
@@ -19,6 +40,11 @@ CREATE TABLE bronze.crm_prd_info (
     prd_end_dt DATE
 );
 
+-- =============================================
+-- Table: bronze.crm_sales_details
+-- Source : CRM system (sales_details.csv)
+-- =============================================
+DROP TABLE IF EXISTS bronze.crm_sales_details CASCADE;
 
 CREATE TABLE bronze.crm_sales_details(
     sls_ord_num VARCHAR(50),
@@ -32,16 +58,34 @@ CREATE TABLE bronze.crm_sales_details(
     sls_price INT
 );
 
+-- =============================================
+-- Table: bronze.erp_cust_az12
+-- Source : ERP system (cust_az12.csv)
+-- =============================================
+DROP TABLE IF EXISTS bronze.erp_cust_az12 CASCADE;
+
 CREATE TABLE bronze.erp_cust_az12 (
     cid VARCHAR(50),
     bdate DATE,
     gen varchar(10)
 );
 
+-- =============================================
+-- Table: bronze.erp_loc_a101
+-- Source : ERP system (loc_a101.csv)
+-- =============================================
+DROP TABLE IF EXISTS bronze.erp_loc_a101 CASCADE;
+
 CREATE TABLE bronze.erp_loc_a101 (
     cid VARCHAR(50),
     cntry varchar(50)
 );
+
+-- =============================================
+-- Table: bronze.erp_px_cat_g1v2
+-- Source : ERP system (px_cat_g1v2.csv)
+-- =============================================
+DROP TABLE IF EXISTS bronze.erp_px_cat_g1v2 CASCADE;
 
 CREATE TABLE bronze.erp_px_cat_g1v2 (
     id VARCHAR(50),
@@ -49,6 +93,18 @@ CREATE TABLE bronze.erp_px_cat_g1v2 (
     subcat VARCHAR(50),
     maintenance VARCHAR(50)
 );
+
+-- =============================================
+-- Verify all bronze tables were created
+-- =============================================
+SELECT table_schema, table_name
+FROM information_schema.tables
+WHERE table_schema = 'bronze'
+ORDER BY table_name;
+
+-- ============================================
+-- Loading all data from soucre into the tables
+-- ============================================
 
 COPY bronze.crm_cust_info
 FROM 'C:/Program Files\PostgreSQL/17/data/cust_info.csv'
